@@ -19,11 +19,18 @@ namespace BackEnd.Core.Services.Posts.Commands.CreatePost
 
         public async Task<PostApiModel> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            request.ThrowIfNull(nameof(request));
-
+            ValidateRequest(request);
+            
             var post = await _postStore.Add(ToPostModel(request), cancellationToken);
 
             return ToPostApiModel(post);
+        }
+
+        private static void ValidateRequest(CreatePostCommand request)
+        {
+            request.ThrowIfNull(nameof(request));
+            request.Content.ThrowIfNullOrEmpty(nameof(request.Content));
+            request.PhotoUrl.ThrowIfNullOrEmpty(nameof(request.PhotoUrl));
         }
 
         private static Post ToPostModel(CreatePostCommand request)
