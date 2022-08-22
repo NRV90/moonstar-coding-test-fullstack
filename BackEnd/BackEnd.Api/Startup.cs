@@ -1,4 +1,10 @@
-using BackEnd.Api.Data;
+using BackEnd.Core;
+using BackEnd.Core.Interfaces;
+using BackEnd.Infrastructure.Data;
+using BackEnd.Infrastructure.Data.Stores;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +25,20 @@ namespace BackEnd.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(CoreAssembly.Assembly);
+
             services.AddControllers();
+
+            services.AddFluentValidationAutoValidation();
+
+            services.AddTransient<IPostStore, PostStore>();
+
+            // Add FluentValidation
+            AssemblyScanner.FindValidatorsInAssembly(CoreAssembly.Assembly)
+                .ForEach(item =>
+                {
+                    services.AddScoped(item.InterfaceType, item.ValidatorType);
+                });
 
             services.AddDbContext<PostDbContext>();
         }

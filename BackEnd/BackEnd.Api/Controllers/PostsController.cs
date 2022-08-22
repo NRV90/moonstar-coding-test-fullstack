@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
-using BackEnd.Api.Data;
-using BackEnd.Api.Dtos;
-using BackEnd.Api.Models;
+using BackEnd.Core.Services.Posts.Commands.CreatePost;
+using BackEnd.Infrastructure.Data;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Api.Controllers
@@ -13,10 +12,11 @@ namespace BackEnd.Api.Controllers
     public class PostsController : ControllerBase
     {
         private readonly PostDbContext _postDbDbContext;
-
-        public PostsController(PostDbContext postDbDbContext)
+        private readonly IMediator _mediatr;
+        public PostsController(PostDbContext postDbDbContext, IMediator mediatr)
         {
             _postDbDbContext = postDbDbContext;
+            _mediatr = mediatr;
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace BackEnd.Api.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute]int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var post = await _postDbDbContext
                 .Posts
@@ -48,32 +48,13 @@ namespace BackEnd.Api.Controllers
 
             return Ok(post);
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreatePostDto createPostDto)
+        public async Task<IActionResult> Create([FromBody] CreatePostCommand createPostCommand)
         {
-            if (string.IsNullOrWhiteSpace(createPostDto.Content))
-                return BadRequest();
-            if (string.IsNullOrWhiteSpace(createPostDto.PhotoUrl))
-                return BadRequest();
+            var post = await _mediatr.Send(createPostCommand);
 
-            var newPost = new Post
-            {
-                Content = createPostDto.Content,
-                PhotoUrl = createPostDto.PhotoUrl
-            };
-
-            _postDbDbContext.Posts
-                .Add(newPost);
-
-            await _postDbDbContext.SaveChangesAsync();
-
-            if (newPost.Id == default)
-            {
-                return Problem();
-            }
-
-            return CreatedAtAction(nameof(GetById), new { newPost.Id }, new { newPost.Id });
+            return CreatedAtAction(nameof(GetById), new { id = post.Id }, post);
         }
     }
 }

@@ -1,6 +1,6 @@
-namespace BackEnd.Api.Models
+﻿namespace BackEnd.Core.Services.Posts.Models
 {
-    public class Post
+    public class PostApiModel
     {
         public int Id { get; set; }
         public string Content { get; set; }

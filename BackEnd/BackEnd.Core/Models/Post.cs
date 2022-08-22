@@ -1,7 +1,8 @@
-namespace BackEnd.Api.Dtos
+namespace BackEnd.Core.Models
 {
-    public class CreatePostDto
+    public class Post
     {
+        public int Id { get; set; }
         public string Content { get; set; }
         public string PhotoUrl { get; set; }
     }
