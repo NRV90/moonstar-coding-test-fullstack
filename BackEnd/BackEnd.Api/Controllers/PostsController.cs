@@ -12,11 +12,10 @@ namespace BackEnd.Api.Controllers
     [Route("[controller]")]
     public class PostsController : ControllerBase
     {
-        private readonly PostDbContext _postDbDbContext;
         private readonly IMediator _mediatr;
-        public PostsController(PostDbContext postDbDbContext, IMediator mediatr)
+
+        public PostsController(IMediator mediatr)
         {
-            _postDbDbContext = postDbDbContext;
             _mediatr = mediatr;
         }
 
@@ -31,7 +30,7 @@ namespace BackEnd.Api.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var post = await  _mediatr.Send(new GetPostByIdQuery(id));
+            var post = await _mediatr.Send(new GetPostByIdQuery(id));
 
             if (post is null)
             {
