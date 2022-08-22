@@ -6,35 +6,27 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BackEnd.Core.Services.Posts.Commands.CreatePost
+namespace BackEnd.Core.Services.Posts.Queries.GetPostById
 {
-    public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, PostApiModel>
+    public class GetPostByIdQueryHandler : IRequestHandler<GetPostByIdQuery, PostApiModel>
     {
         private readonly IPostStore _postStore;
 
-        public CreatePostCommandHandler(IPostStore postStore)
+        public GetPostByIdQueryHandler(IPostStore postStore)
         {
             _postStore = postStore.ThrowIfNull(nameof(postStore));
         }
 
-        public async Task<PostApiModel> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<PostApiModel> Handle(GetPostByIdQuery request, CancellationToken cancellationToken)
         {
             request.ThrowIfNull(nameof(request));
 
-            var post = await _postStore.Add(ToPostModel(request), cancellationToken);
+            var post = await _postStore.GetById(request.Id, cancellationToken);
 
             return ToPostApiModel(post);
         }
 
-        private static Post ToPostModel(CreatePostCommand request)
-        {
-            return new Post()
-            {
-                Content = request.Content,
-                PhotoUrl = request.PhotoUrl
-            };
-        }
-
+        //TODO - implement Automapper or create a mapping service to avoid redundant code.
         private static PostApiModel ToPostApiModel(Post post)
         {
             if (post is null) return null;
@@ -46,5 +38,6 @@ namespace BackEnd.Core.Services.Posts.Commands.CreatePost
                 PhotoUrl = post.PhotoUrl
             };
         }
+
     }
 }

@@ -1,8 +1,9 @@
+using BackEnd.Shared.Models;
+
 namespace BackEnd.Core.Models
 {
-    public class Post
+    public class Post : BaseEntity
     {
-        public int Id { get; set; }
         public string Content { get; set; }
         public string PhotoUrl { get; set; }
     }

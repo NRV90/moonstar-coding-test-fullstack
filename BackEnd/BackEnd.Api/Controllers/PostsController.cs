@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
 using BackEnd.Core.Services.Posts.Commands.CreatePost;
+using BackEnd.Core.Services.Posts.Queries.GetPostById;
+using BackEnd.Core.Services.Posts.Queries.GetPosts;
 using BackEnd.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Api.Controllers
 {
@@ -22,14 +23,7 @@ namespace BackEnd.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var posts = await _postDbDbContext
-                .Posts
-                .ToListAsync();
-
-            if (posts is null)
-            {
-                return NotFound();
-            }
+            var posts = await _mediatr.Send(new GetPostsQuery());
 
             return Ok(posts);
         }
@@ -37,9 +31,7 @@ namespace BackEnd.Api.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var post = await _postDbDbContext
-                .Posts
-                .SingleOrDefaultAsync(post => post.Id.Equals(id));
+            var post = await  _mediatr.Send(new GetPostByIdQuery(id));
 
             if (post is null)
             {
