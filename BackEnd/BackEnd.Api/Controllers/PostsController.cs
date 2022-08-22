@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using BackEnd.Core.Services.Posts.Commands.CreatePost;
 using BackEnd.Core.Services.Posts.Queries.GetPostById;
 using BackEnd.Core.Services.Posts.Queries.GetPosts;
-using BackEnd.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
