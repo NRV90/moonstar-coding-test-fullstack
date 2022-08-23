@@ -1,3 +1,17 @@
 <ion-app>
+  <ion-toolbar>
+    <ion-title>Feedster</ion-title>
+  </ion-toolbar>
+
   <ion-router-outlet></ion-router-outlet>
+
+  <ion-footer collapse="fade">
+    <ion-toolbar>
+      <ion-buttons class="ion-text-center buttons-container">
+        <ion-button color="primary" fill="clear" (click)="addPost()">
+          <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
 </ion-app>

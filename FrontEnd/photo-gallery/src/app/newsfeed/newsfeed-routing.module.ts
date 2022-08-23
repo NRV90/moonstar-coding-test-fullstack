@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddPostComponent } from '../add-post/add-post.component';
 import { NewsfeedPage as NewsfeedPage } from './newsfeed.page';
 
 const routes: Routes = [
@@ -17,4 +18,4 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class NewsfeedPageRoutingModule {}
+export class NewsfeedPageRoutingModule { }

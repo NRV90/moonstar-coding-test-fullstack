@@ -1,7 +1,3 @@
-<ion-toolbar>
-  <ion-title>News Feed</ion-title>
-</ion-toolbar>
-
 <ion-content fulscreen class="ion-padding">
   <ion-list class="bg-transparent" *ngIf="posts.length > 0; else noPosts">
     <ion-item color="none" lines="none" *ngFor="let post of posts">
@@ -11,15 +7,6 @@
     </ion-item>
   </ion-list>
 </ion-content>
-<ion-footer collapse="fade">
-  <ion-toolbar>
-    <ion-buttons class="ion-text-center buttons-container">
-      <ion-button color="primary" fill="clear">
-        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
 
 <ng-template #noPosts>
   <div class="no-posts">

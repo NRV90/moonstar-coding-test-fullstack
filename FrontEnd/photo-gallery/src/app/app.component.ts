@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 
 
@@ -8,7 +9,11 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {
+  constructor(private router: Router) {
     defineCustomElements(window);
+  }
+
+  addPost() {
+    this.router.navigate(['add-post'])
   }
 }
