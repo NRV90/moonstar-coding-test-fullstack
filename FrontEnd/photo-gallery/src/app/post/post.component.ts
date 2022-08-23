@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Dialogs } from '@awesome-cordova-plugins/dialogs/ngx';
 
 @Component({
   selector: 'app-post',
@@ -7,8 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostComponent implements OnInit {
 
+  @Input() content: string;
+  @Input() photoUrl: string = '../assets/img/no-posts.png';
+  
+  public isModalOpen: boolean = false;
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
+  updateUrl(event: any) {
+    this.photoUrl = '../assets/img/no-posts.png';
+  }
+
+  editPost(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
 }

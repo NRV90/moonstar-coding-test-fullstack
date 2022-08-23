@@ -28,7 +28,7 @@ namespace BackEnd.Api
             services.AddMediatR(CoreAssembly.Assembly);
 
             services.AddControllers();
-
+            services.AddCors();
             services.AddFluentValidationAutoValidation();
 
             services.AddTransient<IPostStore, PostStore>();
@@ -50,6 +50,14 @@ namespace BackEnd.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(options =>
+            {
+                options
+                  .AllowAnyHeader()
+                  .AllowAnyOrigin()
+                  .AllowAnyMethod();
+            });
 
             app.UseHttpsRedirection();
 

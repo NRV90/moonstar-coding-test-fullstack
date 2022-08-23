@@ -1,8 +1,13 @@
 .post-image-container {
+    padding-top: 20px;
     display: flex;
     justify-content: center;
 }
 
 .post-image {
-    width: 50%;
+    max-width: 30em;
+}
+
+.click-card {
+    cursor: pointer;
 }

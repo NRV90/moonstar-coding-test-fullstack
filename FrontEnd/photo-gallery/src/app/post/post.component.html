@@ -1,15 +1,29 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-subtitle>Post subtitle</ion-card-subtitle>
-    <ion-card-title>Post title</ion-card-title>
-  </ion-card-header>
-
+<ion-card (click)="editPost(true)" class="click-card">
   <div class="post-image-container">
-    <img class="post-image" src="../assets/img/yourimage.jpg">
+    <img class="post-image" src="{{photoUrl}}" (error)="updateUrl($event)">
   </div>
 
-  <ion-card-content>   
-    Keep close to Nature's heart... and break clear away, once in awhile,
-    and climb a mountain or spend a week in the woods. Wash your spirit clean.
-  </ion-card-content>
+  <ion-card-content> {{content}} </ion-card-content>
 </ion-card>
+
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button color="primary" fill="clear" (click)="setOpen(false)">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="post-image-container">
+        <img class="post-image" src="{{photoUrl}}" (error)="updateUrl($event)">
+      </div>
+      <p>
+        {{content}}
+      </p>
+    </ion-content>
+  </ng-template>
+</ion-modal>
