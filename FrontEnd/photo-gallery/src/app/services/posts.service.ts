@@ -15,4 +15,11 @@ export class PostsService {
   public getPosts(): Observable<Post[]> {
     return this.httpClient.get<Post[]>(this.postsEndpoint);
   }
+
+  public addPost(file: any, post: Post): Observable<any> {
+    let formData: FormData = new FormData();
+    formData.append("document", file, file.name);
+    formData.append("content", post.content);
+    return this.httpClient.post(this.postsEndpoint, formData);
+  }
 }

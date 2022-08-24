@@ -1,7 +1,49 @@
 <ion-content fulscreen class="ion-padding">
-  <ion-item color="none" lines="none">
-    <div class="item-container ">
-      ratata
-    </div>
-  </ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <form [formGroup]="postForm">
+            <ion-item lines="full">
+              <ion-label position="floating">Content</ion-label>
+              <ion-input type="text" [formControl]="contentControl" required></ion-input>
+            </ion-item>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-grid>
+            <ion-row>
+              <ion-col class="ion-text-center">
+                <input class="hidden-input" type="file" #fileInput (change)="onFileChanged($event)" />
+                <div class="post-image-container">
+                  <img class="post-image" [src]="imageSrc || '../assets/img/no-posts.png'" />
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="ion-text-center">
+                <ion-button type="button" (click)="fileInput.click()" color="primary" fill="clear">
+                  Upload Photo
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-buttons class="ion-text-center buttons-container">
+    <ion-button type="button" (click)="back()" color="primary" fill="clear">
+      BACK
+    </ion-button>
+    <ion-button type="button" (click)="addPost()" color="primary" fill="clear">
+      SUBMIT
+    </ion-button>
+  </ion-buttons>
 </ion-content>

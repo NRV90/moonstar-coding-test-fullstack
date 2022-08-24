@@ -3,7 +3,11 @@
     <img class="post-image" src="{{photoUrl}}" (error)="updateUrl($event)">
   </div>
 
-  <ion-card-content> {{content}} </ion-card-content>
+  <ion-card-content>
+    <p class="ion-text-center">
+      {{content}}
+    </p>
+  </ion-card-content>
 </ion-card>
 
 <ion-modal [isOpen]="isModalOpen">
@@ -21,7 +25,7 @@
       <div class="post-image-container">
         <img class="post-image" src="{{photoUrl}}" (error)="updateUrl($event)">
       </div>
-      <p>
+      <p class="ion-text-center">
         {{content}}
       </p>
     </ion-content>

@@ -17,11 +17,11 @@ namespace BackEnd.Core.Services.Posts.Queries.GetPosts
             _postStore = postStore.ThrowIfNull(nameof(postStore));
         }
 
-        public Task<IReadOnlyCollection<Post>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<Post>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
         {
             request.ThrowIfNull(nameof(request));
 
-            return _postStore.Get(cancellationToken);
+            return await _postStore.Get(cancellationToken);
         }
     }
 }

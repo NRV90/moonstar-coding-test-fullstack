@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Post } from '../models/post.model';
 import { PostsService } from '../services/posts.service';
 
@@ -7,13 +7,13 @@ import { PostsService } from '../services/posts.service';
   templateUrl: 'newsfeed.page.html',
   styleUrls: ['newsfeed.page.scss']
 })
-export class NewsfeedPage implements OnInit {
+export class NewsfeedPage {
 
   constructor(private postService: PostsService) { }
 
   public posts: Post[] = [];
 
-  ngOnInit(): void {
+  ionViewDidEnter() {
     this.getPosts();
   }
 

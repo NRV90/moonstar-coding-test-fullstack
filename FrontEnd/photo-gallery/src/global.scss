@@ -33,3 +33,22 @@ ion-modal {
 .buttons-container {
     justify-content: center;
 }
+
+.w-25 {
+    width: 25%;
+}
+
+.post-image-container {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.post-image {
+    width:  auto;
+    height: auto;
+    max-width: 25rem;
+    display: block;
+    padding-left: 20px;
+    padding-right: 20px;
+}

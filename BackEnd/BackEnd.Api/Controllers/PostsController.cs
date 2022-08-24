@@ -1,8 +1,12 @@
+using System;
+using System.IO;
 using System.Threading.Tasks;
+using BackEnd.Core.Services.File.Commands.CreateFile;
 using BackEnd.Core.Services.Posts.Commands.CreatePost;
 using BackEnd.Core.Services.Posts.Queries.GetPostById;
 using BackEnd.Core.Services.Posts.Queries.GetPosts;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Api.Controllers
@@ -40,9 +44,15 @@ namespace BackEnd.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreatePostCommand createPostCommand)
+        public async Task<IActionResult> Create([FromForm(Name = "content")] string content, [FromForm(Name = "document")] IFormFile file)
         {
-            var post = await _mediatr.Send(createPostCommand);
+            var command = new CreatePostCommand
+            {
+                Content = content,
+                PhotoUrl = await _mediatr.Send(new CreateFileCommand(file))
+            };
+
+            var post = await _mediatr.Send(command);
 
             return CreatedAtAction(nameof(GetById), new { id = post.Id }, post);
         }

@@ -14,6 +14,6 @@ export class AppComponent {
   }
 
   addPost() {
-    this.router.navigate(['add-post'])
+    this.router.navigate(['add-post'], { replaceUrl: true })
   }
 }
