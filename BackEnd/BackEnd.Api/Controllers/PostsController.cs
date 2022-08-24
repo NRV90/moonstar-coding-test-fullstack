@@ -23,9 +23,9 @@ namespace BackEnd.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(int skip, int take)
         {
-            var posts = await _mediatr.Send(new GetPostsQuery());
+            var posts = await _mediatr.Send(new GetPostsQuery(skip, take));
 
             return Ok(posts);
         }

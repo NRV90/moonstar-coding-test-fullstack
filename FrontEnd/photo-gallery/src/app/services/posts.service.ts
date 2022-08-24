@@ -12,8 +12,8 @@ export class PostsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getPosts(): Observable<Post[]> {
-    return this.httpClient.get<Post[]>(this.postsEndpoint);
+  public getPosts(skip: number, take: number): Observable<Post[]> {
+    return this.httpClient.get<Post[]>(this.postsEndpoint, { params: { skip: skip, take: take } });
   }
 
   public addPost(file: any, post: Post): Observable<any> {

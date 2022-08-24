@@ -27,9 +27,16 @@ namespace BackEnd.Infrastructure.Data.Stores
             return entity;
         }
 
-        public async Task<IReadOnlyCollection<T>> Get(CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyCollection<T>> Get(int skip, int take, CancellationToken cancellationToken = default)
         {
-            var entities = await _dbSet.ToListAsync(cancellationToken);
+            var query = _dbSet.AsQueryable();
+
+            if (take != default)
+            {
+                query = query.Skip(skip).Take(take);
+            }
+
+            var entities = await query.ToListAsync(cancellationToken);
 
             return entities.ToArray();
         }

@@ -21,7 +21,7 @@ namespace BackEnd.Shared.Interfaces
         /// A task that represents the asynchronous operation.
         /// The task result contains the list of entities />.
         /// </returns>
-        Task<IReadOnlyCollection<T>> Get(CancellationToken cancellationToken = default);
+        Task<IReadOnlyCollection<T>> Get(int skip, int take, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves an entity from the database.

@@ -21,7 +21,7 @@ namespace BackEnd.Core.Services.Posts.Queries.GetPosts
         {
             request.ThrowIfNull(nameof(request));
 
-            return await _postStore.Get(cancellationToken);
+            return await _postStore.Get(request.Skip, request.Take, cancellationToken);
         }
     }
 }
