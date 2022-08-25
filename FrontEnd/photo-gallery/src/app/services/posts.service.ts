@@ -22,7 +22,9 @@ export class PostsService {
 
   public addPost(file: any, post: Post): Observable<any> {
     let formData: FormData = new FormData();
-    formData.append("document", file, file.name);
+    if (file) {
+      formData.append("document", file, file.name);
+    }
     formData.append("content", post.content);
     return this.httpClient.post(this.postsEndpoint, formData);
   }

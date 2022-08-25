@@ -43,7 +43,6 @@ export class PostFormComponent implements OnChanges {
   }
 
   addPost() {
-    if (!this.imageSrc) return;
     this.submit.emit({ file: this.file, post: this.getPostFromForm() });
   }
 

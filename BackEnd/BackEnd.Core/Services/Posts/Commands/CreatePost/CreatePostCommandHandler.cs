@@ -29,8 +29,6 @@ namespace BackEnd.Core.Services.Posts.Commands.CreatePost
         private static void ValidateRequest(CreatePostCommand request)
         {
             request.ThrowIfNull(nameof(request));
-            request.Content.ThrowIfNullOrEmpty(nameof(request.Content));
-            request.PhotoUrl.ThrowIfNullOrEmpty(nameof(request.PhotoUrl));
         }
 
         private static Post ToPostModel(CreatePostCommand request)

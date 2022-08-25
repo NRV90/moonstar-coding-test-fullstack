@@ -1,7 +1,9 @@
 using BackEnd.Core;
 using BackEnd.Core.Interfaces;
+using BackEnd.Core.Services.Posts.Commands.CreatePost;
 using BackEnd.Infrastructure.Data;
 using BackEnd.Infrastructure.Data.Stores;
+using BackEnd.Shared.Mediatr;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -29,7 +31,6 @@ namespace BackEnd.Api
 
             services.AddControllers();
             services.AddCors();
-            services.AddFluentValidationAutoValidation();
 
             services.AddTransient<IPostStore, PostStore>();
 
@@ -39,7 +40,7 @@ namespace BackEnd.Api
                 {
                     services.AddScoped(item.InterfaceType, item.ValidatorType);
                 });
-
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddDbContext<PostDbContext>();
         }
 
