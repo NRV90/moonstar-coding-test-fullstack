@@ -2,15 +2,32 @@
   <ion-list class="bg-transparent" *ngIf="posts.length > 0; else noPosts">
     <ion-item color="none" lines="none" *ngFor="let post of posts">
       <div class="item-container">
-        <app-post [content]="post.content" [photoUrl]="post.photoUrl"></app-post>
+        <app-post [content]="post.content" [photoUrl]="post.photoUrl" [postId]="post.id"
+          (openModal)="setOpen(true,$event)">
+        </app-post>
       </div>
+      <ion-modal [isOpen]="isModalOpenMap[post.id]">
+        <ng-template>
+          <ion-content class="ion-padding">
+            <p class="ion-text-center">
+              Are you sure you want to delete the post?
+            </p>
+          </ion-content>
+          <ion-toolbar class="ion-text-center">
+            <ion-button color="primary" fill="clear" (click)="delete(post.id,false)">
+              YES
+            </ion-button>
+            <ion-button color="primary" fill="clear" (click)="setOpen(false, post.id)">
+              NO
+            </ion-button>
+          </ion-toolbar>
+        </ng-template>
+      </ion-modal>
     </ion-item>
   </ion-list>
-  
+
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data...">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

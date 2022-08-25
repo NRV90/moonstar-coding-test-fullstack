@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Dialogs } from '@awesome-cordova-plugins/dialogs/ngx';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post',
@@ -10,10 +10,12 @@ export class PostComponent implements OnInit {
 
   @Input() content: string;
   @Input() photoUrl: string = '../assets/img/no-posts.png';
-  
+  @Input() postId: number;
+  @Output() openModal: EventEmitter<number> = new EventEmitter<number>();
+
   public isModalOpen: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() { }
 
@@ -21,11 +23,19 @@ export class PostComponent implements OnInit {
     this.photoUrl = '../assets/img/no-posts.png';
   }
 
-  editPost(isOpen: boolean) {
+  editPost() {
+    this.router.navigate(['edit-post'], { queryParams: { id: this.postId } })
+  }
+
+  viewPost(isOpen: boolean) {
     this.isModalOpen = isOpen;
   }
 
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
+  }
+
+  delete() {
+    this.openModal.emit(this.postId);
   }
 }

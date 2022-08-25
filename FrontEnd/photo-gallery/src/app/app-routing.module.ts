@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AddPostComponent } from './add-post/add-post.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 const routes: Routes = [
   {    
@@ -10,6 +11,10 @@ const routes: Routes = [
   {
     path: 'add-post',
     component: AddPostComponent
+  },
+  {
+    path: 'edit-post',
+    component: EditPostComponent
   },
 ];
 @NgModule({

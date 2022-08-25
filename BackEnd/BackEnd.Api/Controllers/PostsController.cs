@@ -2,7 +2,11 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using BackEnd.Core.Services.File.Commands.CreateFile;
+using BackEnd.Core.Services.File.Commands.UpdateFile;
 using BackEnd.Core.Services.Posts.Commands.CreatePost;
+using BackEnd.Core.Services.Posts.Commands.DeletePost;
+using BackEnd.Core.Services.Posts.Commands.UpdatePost;
+using BackEnd.Core.Services.Posts.Models;
 using BackEnd.Core.Services.Posts.Queries.GetPostById;
 using BackEnd.Core.Services.Posts.Queries.GetPosts;
 using MediatR;
@@ -30,8 +34,9 @@ namespace BackEnd.Api.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        [HttpGet]
+        [Route("getbyid")]
+        public async Task<IActionResult> GetById(int id)
         {
             var post = await _mediatr.Send(new GetPostByIdQuery(id));
 
@@ -55,6 +60,29 @@ namespace BackEnd.Api.Controllers
             var post = await _mediatr.Send(command);
 
             return CreatedAtAction(nameof(GetById), new { id = post.Id }, post);
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> Update([FromForm(Name = "content")] string content, [FromForm(Name = "document")] IFormFile file, [FromForm(Name = "filePath")] string filePath, [FromForm(Name = "id")] int id)
+        {
+            var command = new UpdatePostCommand(new PostApiModel()
+            {
+                Content = content,
+                PhotoUrl = await _mediatr.Send(new UpdateFileCommand(file, filePath)),
+                Id = id
+            });
+
+            var post = await _mediatr.Send(command);
+
+            return CreatedAtAction(nameof(GetById), new { id = post.Id }, post);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var posts = await _mediatr.Send(new DeletePostCommand(id));
+
+            return Ok(posts);
         }
     }
 }

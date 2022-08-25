@@ -15,8 +15,16 @@ export class NewsfeedPage {
 
   public posts: Post[] = [];
 
+  public isModalOpenMap = new Map<number, boolean>()
+
   ionViewDidEnter() {
     this.getPosts(this.skip * this.take, this.take);
+  }
+
+  ionViewDidLeave() {
+    this.skip = 0;
+    this.take = 3;
+    this.posts = [];
   }
 
   loadData(event) {
@@ -31,7 +39,28 @@ export class NewsfeedPage {
     this.postService.getPosts(skip, take)
       .subscribe(res => {
         if (!res) return;
+        res.forEach(item => {
+          this.isModalOpenMap.set(item.id, false)
+        })
         this.posts = this.posts.concat(res);
       })
+  }
+
+  setOpen(isOpen: boolean, postId: number) {
+    this.isModalOpenMap[postId] = isOpen;
+  }
+
+  delete(postId: number) {
+    this.isModalOpenMap[postId] = false;
+    this.postService.delete(postId).subscribe(() => this.removePostFromArray(postId));
+  }
+
+  removePostFromArray(postId: number) {
+    const deletedPost = this.posts.find(p => p.id == postId);
+    const index = this.posts.indexOf(deletedPost);
+    if (index > -1) {
+      this.posts.splice(index, 1);
+    }
+    this.ionViewDidEnter();
   }
 }

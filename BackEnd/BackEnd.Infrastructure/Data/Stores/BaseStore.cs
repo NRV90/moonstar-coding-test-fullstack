@@ -27,13 +27,21 @@ namespace BackEnd.Infrastructure.Data.Stores
             return entity;
         }
 
+        public async Task Delete(int id, CancellationToken cancellationToken = default)
+        {
+            var entity = _dbSet.AsNoTracking().Where(en => en.Id == id).FirstOrDefault();
+            _dbSet.Remove(entity);
+
+            await SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<IReadOnlyCollection<T>> Get(int skip, int take, CancellationToken cancellationToken = default)
         {
             var query = _dbSet.AsQueryable();
 
             if (take != default)
             {
-                query = query.Skip(skip).Take(take);
+                query = query.OrderBy(en => en.Id).Skip(skip).Take(take);
             }
 
             var entities = await query.ToListAsync(cancellationToken);
@@ -48,6 +56,18 @@ namespace BackEnd.Infrastructure.Data.Stores
                 .FirstOrDefaultAsync(cancellationToken);
 
             return entity;
+        }
+
+        public async Task<T> Update(T entity, CancellationToken cancellationToken = default)
+        {
+            var existingEntity = _dbSet.AsNoTracking().Where(en => en.Id == entity.Id).FirstOrDefault();
+            existingEntity = entity;
+
+            _dbSet.Update(existingEntity);
+
+            await SaveChangesAsync(cancellationToken);
+
+            return existingEntity;
         }
 
         private async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

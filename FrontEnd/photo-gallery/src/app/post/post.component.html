@@ -1,5 +1,13 @@
-<ion-card (click)="editPost(true)" class="click-card">
-  <div class="post-image-container">
+<ion-card>
+  <ion-buttons>
+    <ion-button color="secondary" (click)="editPost()">
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-button>
+    <ion-button color="secondary" (click)="delete()">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <div class="post-image-container click-card" (click)="viewPost(true)">
     <img class="post-image" src="{{photoUrl}}" (error)="updateUrl($event)">
   </div>
 

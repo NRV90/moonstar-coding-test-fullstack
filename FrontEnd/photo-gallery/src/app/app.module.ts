@@ -8,9 +8,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AddPostComponent } from './add-post/add-post.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
+import { PostFormComponent } from './post-form/post-form.component';
 
 @NgModule({
-  declarations: [AppComponent, AddPostComponent],
+  declarations: [AppComponent, AddPostComponent, EditPostComponent, PostFormComponent],
   imports: [
     CommonModule,
     BrowserModule,
